@@ -148,14 +148,13 @@ class MinimaxAgent(MultiAgentSearchAgent):
         # Initialize variables according to Maximizer/Minimizer
         isMaximizer = currentAgent is self.index
         startValue = (-1 if isMaximizer else 1) * float("inf")
-        maxOrMin = max if isMaximizer else min
-        action, value = (self.NO_ACTION, startValue)
 
+        action, value = (self.NO_ACTION, startValue)
         # Calculate the action, value tuple
         for nextAction in gameState.getLegalActions(currentAgent):
-            nextValue = maxOrMin(value,
-                                 self.helper(gameState.generateSuccessor(currentAgent, nextAction),
-                                             currentAgent + 1, currentDepth)[1])
+            nextValue = self.helper(gameState.generateSuccessor(currentAgent, nextAction),
+                                    currentAgent + 1, currentDepth)[1]
+            nextValue = max(value, nextValue) if isMaximizer else min(value, nextValue)
             action, value = (nextAction if nextValue != value else action, nextValue)
 
         return action, value
@@ -185,8 +184,44 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
           All ghosts should be modeled as choosing uniformly at random from their
           legal moves.
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+class ExpectimaxAgent(MultiAgentSearchAgent):
+    """
+    Your expectimax agent (question 4)
+    """
+
+    def getAction(self, gameState):
+        """
+          Returns the minimax action from the current gameState using self.depth
+          and self.evaluationFunction.
+        """
+        return self.value(gameState, 0, 0)[0]
+
+    def value(self, gameState, currentAgent, currentDepth):
+
+        # Update currentDepth and currentAgentIndex
+        if currentAgent == gameState.getNumAgents():
+            currentDepth += 1
+        currentAgent %= gameState.getNumAgents()
+
+        # Base case
+        if currentDepth == self.depth or not gameState.getLegalActions(currentAgent):
+            return self.NO_ACTION, self.evaluationFunction(gameState)
+
+        # Initialize variables according to Maximizer/Minimizer
+        isMaximizer = currentAgent is self.index
+        startValue = -1*float("inf") if isMaximizer else 0
+        uniformProbability = 1.0 / len(gameState.getLegalActions(currentAgent))
+
+        # Calculate the action, value tuple
+        action, value = self.NO_ACTION, startValue
+        for nextAction in gameState.getLegalActions(currentAgent):
+            nextValue = self.value(gameState.generateSuccessor(currentAgent, nextAction),
+                                   currentAgent + 1, currentDepth)[1]
+            newValue = max(value, nextValue) if isMaximizer else value + (nextValue * uniformProbability)
+            action, value = nextAction if value != newValue else action, newValue
+
+        return action, value
+
 
 def betterEvaluationFunction(currentGameState):
     """
