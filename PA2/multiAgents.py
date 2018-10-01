@@ -62,8 +62,8 @@ class ReflexAgent(Agent):
 
         # Decompose positions from the successor state
         pacman = successorGameState.getPacmanPosition()
-        newGhosts = map(lambda ghostState: ghostState.getPosition(), successorGameState.getGhostStates())
-        newFoods = currentGameState.getFood().asList()
+        ghosts = map(lambda ghostState: ghostState.getPosition(), successorGameState.getGhostStates())
+        foods = currentGameState.getFood().asList()
 
         """
         If the new successor and one of the ghost's are at the same position, it's a bad move
@@ -72,8 +72,8 @@ class ReflexAgent(Agent):
         manhattan distance between Pac-Man's position and the new Foods' positions
         """
         distance, STOP = -float("inf"), 'Stop'
-        return distance if pacman in newGhosts or action == STOP \
-            else [max(distance, -manhattanDistance(food, pacman)) for food in newFoods]
+        return distance if pacman in ghosts or action == STOP \
+            else [max(distance, -manhattanDistance(food, pacman)) for food in foods]
 
 
 def scoreEvaluationFunction(currentGameState):
@@ -117,18 +117,6 @@ class MinimaxAgent(MultiAgentSearchAgent):
         """
           Returns the minimax action from the current gameState using self.depth
           and self.evaluationFunction.
-
-          Here are some method calls that might be useful when implementing minimax.
-
-          gameState.getLegalActions(agentIndex):
-            Returns a list of legal actions for an agent
-            agentIndex=0 means Pacman, ghosts are >= 1
-
-          gameState.generateSuccessor(agentIndex, action):
-            Returns the successor game state after an agent takes an action
-
-          gameState.getNumAgents():
-            Returns the total number of agents in the game
         """
         # Return the action
         return self.helper(gameState, 0, 0)[0]
@@ -168,8 +156,44 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         """
           Returns the minimax action using self.depth and self.evaluationFunction
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return self.helper(gameState, -float("inf"), float("inf"), 0, 0)[0]
+
+    def helper(self, gameState, alpha, beta, currentAgent, currentDepth):
+        if gameState.isWin() or gameState.isLose():
+            return self.NO_ACTION, self.evaluationFunction(gameState)
+
+        # Update currentDepth and currentAgentIndex
+        if currentAgent == gameState.getNumAgents():
+            currentDepth += 1
+        currentAgent %= gameState.getNumAgents()
+
+        # Base case
+        if currentDepth == self.depth or not gameState.getLegalActions(currentAgent):
+            return self.NO_ACTION, self.evaluationFunction(gameState)
+
+        # Initialize variables according to Maximizer/Minimizer
+        isMaximizer = currentAgent is self.index
+        startValue = (-1 if isMaximizer else 1) * float("inf")
+
+        action, value = (self.NO_ACTION, startValue)
+        # Calculate the action, value tuple
+        for nextAction in gameState.getLegalActions(currentAgent):
+            nextValue = self.helper(gameState.generateSuccessor(currentAgent, nextAction),
+                                    alpha, beta, currentAgent + 1, currentDepth)[1]
+            nextValue = max(value, nextValue) if isMaximizer else min(value, nextValue)
+            action, value = (nextAction if nextValue != value else action, nextValue)
+
+            # Pruning conditions
+            if (isMaximizer and value > beta) or (not isMaximizer and value < alpha):
+                break
+
+            # Maximizers update alpha; Minimizers update beta
+            if isMaximizer:
+                alpha = max(alpha, value)
+            else:
+                beta = min(beta, value)
+
+        return action, value
 
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
@@ -182,9 +206,9 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
           Returns the minimax action from the current gameState using self.depth
           and self.evaluationFunction.
         """
-        return self.value(gameState, 0, 0)[0]
+        return self.helper(gameState, 0, 0)[0]
 
-    def value(self, gameState, currentAgent, currentDepth):
+    def helper(self, gameState, currentAgent, currentDepth):
 
         # Update currentDepth and currentAgentIndex
         if currentAgent == gameState.getNumAgents():
@@ -203,8 +227,8 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         # Calculate the action, value tuple
         action, value = self.NO_ACTION, startValue
         for nextAction in gameState.getLegalActions(currentAgent):
-            nextValue = self.value(gameState.generateSuccessor(currentAgent, nextAction),
-                                   currentAgent + 1, currentDepth)[1]
+            nextValue = self.helper(gameState.generateSuccessor(currentAgent, nextAction),
+                                    currentAgent + 1, currentDepth)[1]
             newValue = max(value, nextValue) if isMaximizer else value + (nextValue * uniformProbability)
             action, value = nextAction if value != newValue else action, newValue
 
