@@ -55,27 +55,27 @@ class ReflexAgent(Agent):
     def evaluationFunction(self, currentGameState, action):
         """
         Design a better evaluation function here.
-
         The evaluation function takes in the current and proposed successor
         GameStates (pacman.py) and returns a number, where higher numbers are better.
-
-        The code below extracts some useful information from the state, like the
-        remaining food (newFood) and Pacman position after moving (newPos).
-        newScaredTimes holds the number of moves that each ghost will remain
-        scared because of Pacman having eaten a power pellet.
-
-        Print out these variables to see what you're getting, then combine them
-        to create a masterful evaluation function.
         """
-        # Useful information you can extract from a GameState (pacman.py)
-        successorGameState = currentGameState.generatePacmanSuccessor(action)
-        newPos = successorGameState.getPacmanPosition()
-        newFood = successorGameState.getFood()
-        newGhostStates = successorGameState.getGhostStates()
-        newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
 
-        "*** YOUR CODE HERE ***"
-        return successorGameState.getScore()
+        successorGameState = currentGameState.generatePacmanSuccessor(action)
+
+        # Decompose positions from the successor state
+        pacman = successorGameState.getPacmanPosition()
+        newGhosts = map(lambda ghostState: ghostState.getPosition(), successorGameState.getGhostStates())
+        newFoods = currentGameState.getFood().asList()
+
+        """
+        If the new successor and one of the ghost's are at the same position, it's a bad move
+        If the action is 'Stop', it's also a bad move
+        The evaluation function is essentially the maximum negative
+        manhattan distance between Pac-Man's position and the new Foods' positions
+        """
+        distance, STOP = -float("inf"), 'Stop'
+        return distance if pacman in newGhosts or action == STOP \
+            else [max(distance, -manhattanDistance(food, pacman)) for food in newFoods]
+
 
 def scoreEvaluationFunction(currentGameState):
     """
