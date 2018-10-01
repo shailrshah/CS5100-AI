@@ -12,12 +12,11 @@
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
-
+import util
 from util import manhattanDistance
-from game import Directions
-import random, util
-
+import random
 from game import Agent
+
 
 class ReflexAgent(Agent):
     """
@@ -172,18 +171,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         "*** YOUR CODE HERE ***"
         util.raiseNotDefined()
 
-class ExpectimaxAgent(MultiAgentSearchAgent):
-    """
-      Your expectimax agent (question 4)
-    """
 
-    def getAction(self, gameState):
-        """
-          Returns the expectimax action using self.depth and self.evaluationFunction
-
-          All ghosts should be modeled as choosing uniformly at random from their
-          legal moves.
-        """
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
     Your expectimax agent (question 4)
@@ -228,10 +216,29 @@ def betterEvaluationFunction(currentGameState):
       Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
       evaluation function (question 5).
 
-      DESCRIPTION: <write something here so we know what you did>
+      DESCRIPTION: We can get a score from Pac-Man's position, the number of remaining food to eat, and the ghosts.
+      If there is nothing left to eat, we have won and so we return a very high score.
+      For each ghost, we check its distance to Pac-Man. If the ghost is scared and Pac-Man can reach it in time,
+      we add the distance to the score. Otherwise, we subtract the distance from the score.
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # Win state found (No food left to eat). Return a very high score
+    if len(currentGameState.getFood().asList()) == 0:
+        return 99999999999999999999999
+
+    # Initialize the score to be the current score
+    score = currentGameState.getScore()
+    for ghost in currentGameState.getGhostStates():
+
+        # Get the Manhattan Distance between Pac-Man and the ghost
+        pacManToGhostDistance = manhattanDistance(currentGameState.getPacmanPosition(), ghost.getPosition())
+
+        # If Pac-Man can reach the ghost in time and the ghost is scared, add distance to the score
+        # Otherwise, subtract distance from the score
+        multiplier = 1 if ghost.scaredTimer >= pacManToGhostDistance else -1
+        score += pacManToGhostDistance * multiplier
+
+    return score
+
 
 # Abbreviation
 better = betterEvaluationFunction
