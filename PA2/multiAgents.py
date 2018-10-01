@@ -1,15 +1,15 @@
 # multiAgents.py
 # --------------
-# Licensing Information:  You are free to use or extend these projects for 
-# educational purposes provided that (1) you do not distribute or publish 
-# solutions, (2) you retain this notice, and (3) you provide clear 
-# attribution to UC Berkeley, including a link to 
+# Licensing Information:  You are free to use or extend these projects for
+# educational purposes provided that (1) you do not distribute or publish
+# solutions, (2) you retain this notice, and (3) you provide clear
+# attribution to UC Berkeley, including a link to
 # http://inst.eecs.berkeley.edu/~cs188/pacman/pacman.html
-# 
+#
 # Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero 
+# The core projects and autograders were primarily created by John DeNero
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and 
+# Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
 
@@ -106,6 +106,8 @@ class MultiAgentSearchAgent(Agent):
         self.index = 0 # Pacman is always agent index 0
         self.evaluationFunction = util.lookup(evalFn, globals())
         self.depth = int(depth)
+        self.NO_ACTION = "NoAction"
+
 
 class MinimaxAgent(MultiAgentSearchAgent):
     """
@@ -129,8 +131,35 @@ class MinimaxAgent(MultiAgentSearchAgent):
           gameState.getNumAgents():
             Returns the total number of agents in the game
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # Return the action
+        return self.helper(gameState, 0, 0)[0]
+
+    def helper(self, gameState, currentAgent, currentDepth):
+
+        # Update currentDepth and currentAgentIndex
+        if currentAgent == gameState.getNumAgents():
+            currentDepth += 1
+        currentAgent %= gameState.getNumAgents()
+
+        # Base case
+        if currentDepth == self.depth or not gameState.getLegalActions(currentAgent):
+            return self.NO_ACTION, self.evaluationFunction(gameState)
+
+        # Initialize variables according to Maximizer/Minimizer
+        isMaximizer = currentAgent is self.index
+        startValue = (-1 if isMaximizer else 1) * float("inf")
+        maxOrMin = max if isMaximizer else min
+        action, value = (self.NO_ACTION, startValue)
+
+        # Calculate the action, value tuple
+        for nextAction in gameState.getLegalActions(currentAgent):
+            nextValue = maxOrMin(value,
+                                 self.helper(gameState.generateSuccessor(currentAgent, nextAction),
+                                             currentAgent + 1, currentDepth)[1])
+            action, value = (nextAction if nextValue != value else action, nextValue)
+
+        return action, value
+
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
     """
