@@ -12,10 +12,8 @@
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
-import util
-from util import manhattanDistance
-import random
 from game import Agent
+from util import lookup, manhattanDistance, random
 
 
 class ReflexAgent(Agent):
@@ -27,7 +25,6 @@ class ReflexAgent(Agent):
       it in any way you see fit, so long as you don't touch our method
       headers.
     """
-
 
     def getAction(self, gameState):
         """
@@ -45,13 +42,14 @@ class ReflexAgent(Agent):
         scores = [self.evaluationFunction(gameState, action) for action in legalMoves]
         bestScore = max(scores)
         bestIndices = [index for index in range(len(scores)) if scores[index] == bestScore]
-        chosenIndex = random.choice(bestIndices) # Pick randomly among the best
+        chosenIndex = random.choice(bestIndices)  # Pick randomly among the best
 
         "Add more of your code here if you want to"
 
         return legalMoves[chosenIndex]
 
-    def evaluationFunction(self, currentGameState, action):
+    @staticmethod
+    def evaluationFunction(currentGameState, action):
         """
         Design a better evaluation function here.
         The evaluation function takes in the current and proposed successor
@@ -86,6 +84,7 @@ def scoreEvaluationFunction(currentGameState):
     """
     return currentGameState.getScore()
 
+
 class MultiAgentSearchAgent(Agent):
     """
       This class provides some common elements to all of your
@@ -101,9 +100,10 @@ class MultiAgentSearchAgent(Agent):
       is another abstract class.
     """
 
-    def __init__(self, evalFn = 'scoreEvaluationFunction', depth = '2'):
-        self.index = 0 # Pacman is always agent index 0
-        self.evaluationFunction = util.lookup(evalFn, globals())
+    def __init__(self, evalFn='scoreEvaluationFunction', depth='2'):
+        Agent.__init__(self)
+        self.index = 0  # Pacman is always agent index 0
+        self.evaluationFunction = lookup(evalFn, globals())
         self.depth = int(depth)
         self.NO_ACTION = "NoAction"
 
@@ -219,7 +219,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
 
         # Initialize variables according to Maximizer/Minimizer
         isMaximizer = currentAgent is self.index
-        startValue = -1*float("inf") if isMaximizer else 0
+        startValue = -1 * float("inf") if isMaximizer else 0
         uniformProbability = 1.0 / len(gameState.getLegalActions(currentAgent))
 
         # Calculate the action, value tuple
@@ -250,7 +250,6 @@ def betterEvaluationFunction(currentGameState):
     # Initialize the score to be the current score
     score = currentGameState.getScore()
     for ghost in currentGameState.getGhostStates():
-
         # Get the Manhattan Distance between Pac-Man and the ghost
         pacManToGhostDistance = manhattanDistance(currentGameState.getPacmanPosition(), ghost.getPosition())
 
@@ -264,4 +263,3 @@ def betterEvaluationFunction(currentGameState):
 
 # Abbreviation
 better = betterEvaluationFunction
-
