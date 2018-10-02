@@ -128,7 +128,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
             currentDepth += 1
         currentAgent %= gameState.getNumAgents()
 
-        # Base case
+        # Base case: Depth achieved or terminal state
         if currentDepth == self.depth or not gameState.getLegalActions(currentAgent):
             return self.NO_ACTION, self.evaluationFunction(gameState)
 
@@ -139,8 +139,8 @@ class MinimaxAgent(MultiAgentSearchAgent):
         action, value = (self.NO_ACTION, startValue)
         # Calculate the action, value tuple
         for nextAction in gameState.getLegalActions(currentAgent):
-            nextValue = self.helper(gameState.generateSuccessor(currentAgent, nextAction),
-                                    currentAgent + 1, currentDepth)[1]
+            gameStateAfterAction = gameState.generateSuccessor(currentAgent, nextAction)
+            nextValue = self.helper(gameStateAfterAction, currentAgent + 1, currentDepth)[1]
             nextValue = max(value, nextValue) if isMaximizer else min(value, nextValue)
             action, value = (nextAction if nextValue != value else action, nextValue)
 
@@ -159,15 +159,13 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         return self.helper(gameState, -float("inf"), float("inf"), 0, 0)[0]
 
     def helper(self, gameState, alpha, beta, currentAgent, currentDepth):
-        if gameState.isWin() or gameState.isLose():
-            return self.NO_ACTION, self.evaluationFunction(gameState)
 
         # Update currentDepth and currentAgentIndex
         if currentAgent == gameState.getNumAgents():
             currentDepth += 1
         currentAgent %= gameState.getNumAgents()
 
-        # Base case
+        # Base case: Depth achieved or terminal state
         if currentDepth == self.depth or not gameState.getLegalActions(currentAgent):
             return self.NO_ACTION, self.evaluationFunction(gameState)
 
@@ -178,8 +176,8 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         action, value = (self.NO_ACTION, startValue)
         # Calculate the action, value tuple
         for nextAction in gameState.getLegalActions(currentAgent):
-            nextValue = self.helper(gameState.generateSuccessor(currentAgent, nextAction),
-                                    alpha, beta, currentAgent + 1, currentDepth)[1]
+            gameStateAfterAction = gameState.generateSuccessor(currentAgent, nextAction)
+            nextValue = self.helper(gameStateAfterAction, alpha, beta, currentAgent + 1, currentDepth)[1]
             nextValue = max(value, nextValue) if isMaximizer else min(value, nextValue)
             action, value = (nextAction if nextValue != value else action, nextValue)
 
@@ -215,7 +213,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
             currentDepth += 1
         currentAgent %= gameState.getNumAgents()
 
-        # Base case
+        # Base case: Depth achieved or terminal state
         if currentDepth == self.depth or not gameState.getLegalActions(currentAgent):
             return self.NO_ACTION, self.evaluationFunction(gameState)
 
@@ -227,8 +225,8 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         # Calculate the action, value tuple
         action, value = self.NO_ACTION, startValue
         for nextAction in gameState.getLegalActions(currentAgent):
-            nextValue = self.helper(gameState.generateSuccessor(currentAgent, nextAction),
-                                    currentAgent + 1, currentDepth)[1]
+            gameStateAfterAction = gameState.generateSuccessor(currentAgent, nextAction)
+            nextValue = self.helper(gameStateAfterAction, currentAgent + 1, currentDepth)[1]
             newValue = max(value, nextValue) if isMaximizer else value + (nextValue * uniformProbability)
             action, value = nextAction if value != newValue else action, newValue
 
