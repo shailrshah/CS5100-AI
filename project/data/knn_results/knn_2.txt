@@ -1,0 +1,41 @@
+Accuracy training1 :82.26158726912797
+Accuracy testing1 :46.451759493311364
+              precision    recall  f1-score   support
+
+           1       0.14      0.90      0.25     16109
+           2       0.17      0.14      0.15      6037
+           3       0.96      0.44      0.60    151333
+           4       0.17      0.10      0.12      2566
+
+   micro avg       0.46      0.46      0.46    176045
+   macro avg       0.36      0.39      0.28    176045
+weighted avg       0.85      0.46      0.55    176045
+
+Accuracy training2 :89.04254322060615
+Accuracy testing2 :82.72146326223408
+              precision    recall  f1-score   support
+
+           1       0.26      0.54      0.35      3513
+           2       0.17      0.47      0.25      6097
+           3       0.96      0.86      0.91    164344
+           4       0.05      0.15      0.07      2091
+
+   micro avg       0.83      0.83      0.83    176045
+   macro avg       0.36      0.50      0.40    176045
+weighted avg       0.91      0.83      0.86    176045
+
+Accuracy training3 :90.66659092845579
+Accuracy testing3 :85.03044693372111
+              precision    recall  f1-score   support
+
+           1       0.57      0.40      0.47     16548
+           2       0.22      0.54      0.31      3878
+           3       0.93      0.92      0.92    153292
+           4       0.10      0.13      0.11      2326
+
+   micro avg       0.85      0.85      0.85    176044
+   macro avg       0.45      0.50      0.45    176044
+weighted avg       0.87      0.85      0.86    176044
+
+--- 7633.49699998 seconds ---
+------:K-fold: 3 :neighbors: 1----------

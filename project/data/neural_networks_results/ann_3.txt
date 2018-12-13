@@ -1,0 +1,67 @@
+Accuracy training1 :95.87793811700162
+Accuracy testing1 :13.464360438145551
+              precision    recall  f1-score   support
+
+           1       0.11      0.97      0.20     11342
+           2       0.34      0.20      0.26      3901
+           3       0.92      0.03      0.05     88815
+           4       0.19      0.02      0.04      1569
+
+   micro avg       0.13      0.13      0.13    105627
+   macro avg       0.39      0.31      0.14    105627
+weighted avg       0.80      0.13      0.08    105627
+
+Accuracy training2 :94.88552852378777
+Accuracy testing2 :83.11984625143192
+              precision    recall  f1-score   support
+
+           1       0.28      0.88      0.43      5900
+           2       0.42      0.39      0.41      3061
+           3       0.96      0.85      0.91     95249
+           4       0.51      0.06      0.10      1417
+
+   micro avg       0.83      0.83      0.83    105627
+   macro avg       0.54      0.55      0.46    105627
+weighted avg       0.90      0.83      0.85    105627
+
+Accuracy training3 :94.67156757166153
+Accuracy testing3 :95.66304069982107
+              precision    recall  f1-score   support
+
+           1       0.97      0.63      0.77      1833
+           2       0.74      0.45      0.56      4163
+           3       0.96      1.00      0.98     98388
+           4       0.38      0.06      0.10      1243
+
+   micro avg       0.96      0.96      0.96    105627
+   macro avg       0.77      0.53      0.60    105627
+weighted avg       0.95      0.96      0.95    105627
+
+Accuracy training4 :94.9267112734227
+Accuracy testing4 :96.35888551222699
+              precision    recall  f1-score   support
+
+           1       0.96      0.70      0.81      2500
+           2       0.59      0.60      0.60      2184
+           3       0.97      0.99      0.98     99455
+           4       0.32      0.03      0.06      1488
+
+   micro avg       0.96      0.96      0.96    105627
+   macro avg       0.71      0.58      0.61    105627
+weighted avg       0.96      0.96      0.96    105627
+
+Accuracy training5 :95.53333901369915
+Accuracy testing5 :87.74260125347925
+              precision    recall  f1-score   support
+
+           1       0.69      0.60      0.64     14595
+           2       0.54      0.59      0.57      2703
+           3       0.92      0.94      0.93     87062
+           4       0.41      0.12      0.18      1266
+
+   micro avg       0.88      0.88      0.88    105626
+   macro avg       0.64      0.56      0.58    105626
+weighted avg       0.87      0.88      0.87    105626
+
+--- 895.649999857 seconds ---
+------:K-fold: 5 :hidden: (13, 13, 13) :iteration: 250 :activationFunction: relu----------

@@ -1,0 +1,41 @@
+Accuracy training1 :95.88939160269136
+Accuracy testing1 :44.74310545599137
+              precision    recall  f1-score   support
+
+           1       0.15      0.94      0.27     16109
+           2       0.23      0.17      0.19      6037
+           3       0.97      0.41      0.58    151333
+           4       0.04      0.16      0.07      2566
+
+   micro avg       0.45      0.45      0.45    176045
+   macro avg       0.35      0.42      0.28    176045
+weighted avg       0.85      0.45      0.53    176045
+
+Accuracy training2 :94.26309825072637
+Accuracy testing2 :90.74895623278138
+              precision    recall  f1-score   support
+
+           1       0.21      0.67      0.32      3513
+           2       0.65      0.45      0.54      6097
+           3       0.96      0.94      0.95    164344
+           4       0.36      0.03      0.05      2091
+
+   micro avg       0.91      0.91      0.91    176045
+   macro avg       0.55      0.52      0.47    176045
+weighted avg       0.93      0.91      0.91    176045
+
+Accuracy training3 :95.08733562441421
+Accuracy testing3 :93.59535116220945
+              precision    recall  f1-score   support
+
+           1       0.98      0.63      0.77     16548
+           2       0.55      0.57      0.56      3878
+           3       0.94      0.99      0.97    153292
+           4       0.00      0.00      0.00      2326
+
+   micro avg       0.94      0.94      0.94    176044
+   macro avg       0.62      0.55      0.57    176044
+weighted avg       0.93      0.94      0.93    176044
+
+--- 241.104000092 seconds ---
+------:K-fold: 3 :hidden: (5, 5, 5) :iteration: 250 :activationFunction: relu----------

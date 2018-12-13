@@ -1,0 +1,107 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r, echo=FALSE,warning=FALSE,message=FALSE,fig.width=11, fig.height=5}
+require(ggplot2)
+
+Split <- c("Gini","Entropy","Gini","Entropy","Gini","Entropy","Gini","Entropy","Gini","Entropy","Gini","Entropy")
+Trees <- c(96,96,96,96,64,64,64,64,80,80,80,80)
+Bootstrap <- c("True","True","False","False","True","True","False","False","True","True","False","False")
+ExecTime <- c(345.911999941,360.375999928,490.691000223,499.792999983,236.613000154,220.23300004,292.562000036,301.836999893,258.349999905,270.014000177,369.857000113,382.128999949)
+Accuracy <- c(78.9718537873839,91.2158823028203,77.55062626033117,88.1189468601778,78.65886563094662,93.48746059246216,68.60841607779872,77.27058422562413,84.2023346303502,89.65491777670482,64.74821778522536,79.77562555028544)
+msdtable <- data.frame(Split,Trees,Bootstrap,ExecTime,Accuracy)
+ggplot(msdtable, aes(x=ExecTime, y=Accuracy, size=Trees, color=Bootstrap, shape=Split)) +
+  geom_point() +
+  scale_size_continuous(range = c(4,8)) +
+  xlab("Model creation time (in sec)") +
+  ylab("Accuracy in percentage") +
+  ggtitle("Figure 5: Random Forest Model Performance Evaluation (k-fold = 3)") +
+  theme(plot.title = element_text(hjust = 0.5))
+``` 
+
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,fig.width=11, fig.height=5}
+require(ggplot2)
+
+Split <- c("Gini","Entropy","Gini","Entropy","Gini","Entropy","Gini","Entropy","Gini","Entropy","Gini","Entropy")
+Trees <- c(96,96,96,96,64,64,64,64,80,80,80,80)
+Bootstrap <- c("True","True","False","False","True","True","False","False","True","True","False","False")
+ExecTime <- c(763.559999943,790.118000031,968.715999842,1119.35899997,413.936999798,429.585000038,585.284000158,607.549999952,517.230999947,556.832999945,785.162000179,825.488000154)
+Accuracy <- c(83.0867107841745,83.06209586564042,82.3198613990741,82.88127088717847,82.07560566900509,83.54776714287067,80.41977903376977,82.67015062436688,85.44406259763129,88.59855908053812,76.99451844698798,83.81001069802228)
+msdtable <- data.frame(Split,Trees,Bootstrap,ExecTime,Accuracy)
+ggplot(msdtable, aes(x=ExecTime, y=Accuracy, size=Trees, color=Bootstrap, shape=Split)) +
+  geom_point() +
+  scale_size_continuous(range = c(4,8)) +
+  xlab("Model creation time (in sec)") +
+  ylab("Accuracy in percentage") +
+  ggtitle("Figure 6: Random Forest Model Performance Evaluation (k-fold = 5)") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,fig.width=11, fig.height=5}
+require(ggplot2)
+
+ActivationFunction <- c("relu","relu","relu","relu","relu","logistic","logistic","tanh","tanh")
+K <- c(3,5,5,3,3,5,3,5,3)
+HiddenLayerNumber <- c("3","3","1","1","5","3","3","3","3")
+ExecTime <- c(532.31799984,895.649999857,539.296000004,262.450999975,875.738000154,1101.01499987,754.384000063,1232.23599982,701.914000034)
+Accuracy <- c(93.53002658426303,96.35888551222699,96.40716862165924,93.65215514303242,93.34314148735542,95.92149734442899,93.7260003181023,96.30302858170732,93.58171820681194)
+msdtable <- data.frame(ActivationFunction,K,HiddenLayerNumber,ExecTime,Accuracy)
+ggplot(msdtable, aes(x=ExecTime, y=Accuracy, size=K, color=HiddenLayerNumber, shape=ActivationFunction)) +
+  geom_point() +
+  scale_size_continuous(range = c(4,8)) +
+  xlab("Model creation time (in sec)") +
+  ylab("Accuracy in percentage") +
+  ggtitle("Figure 7: Neural Network Model Performance Evaluation (hidden layer size = 13)") +
+  theme(plot.title = element_text(hjust = 0.5))
+``` 
+
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,fig.width=11, fig.height=5}
+require(ggplot2)
+
+KNeighbor <- c("1","1","1","3","3","3","5","5","5")
+KthFold <- c(1,2,3,1,2,3,1,2,3)
+ExecTime <- c(7633.49699998,7633.49699998,7633.49699998,9180,9180,9180,8860.14700007,8860.14700007,8860.14700007)
+Accuracy <- c(46.451759493311364,82.72146326223408,85.03044693372111,48.11553864068846,89.2834218523673,90.10247438140465,48.67675878326565,93.40282314181033,90.45068278384949)
+msdtable <- data.frame(KthFold,KNeighbor,ExecTime,Accuracy)
+ggplot(msdtable, aes(x=ExecTime, y=Accuracy, size=KthFold,color=KNeighbor)) +
+  geom_point() +
+  scale_size_continuous(range = c(4,8)) +
+  xlab("Model creation time (in sec)") +
+  ylab("Accuracy in percentage") +
+  ggtitle("Figure 8: KNN Model Performance Evaluation (k-fold = 3)") +
+  theme(plot.title = element_text(hjust = 0.5))
+``` 
+
+
+```{r echo=F,message=F,results='asis',error=F,warning=F, fig.width=15, fig.height=5}
+library('knitr')
+library('ggplot2')
+require('gridExtra')
+featureAlias <- c("A","B","c","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","w","X","Y","Z")
+feature <- c("A: EMPLOYER_COUNTRY", "B: FULL_TIME_POSITION", "C: WILLFUL_VIOLATOR", "D: VISA_CLASS", "E: WAGE_UNIT_OF_PAY", "F: PW_UNIT_OF_PAY", "G: TOTAL_WORKERS", "H: DECISION_YEAR", "I: H-1B_DEPENDENT", "J: PW_SOURCE", "K: WAGE_RATE_OF_PAY_TO", "L: PW_SOURCE_OTHER", "M: EMPLOYER_STATE", "N: NAICS_CODE", "O: WORKSITE_STATE", "P: WAGE_RATE_OF_PAY_FROM", "Q: PREVAILING_WAGE", "R: DECISION_MONTH", "S: WORKSITE_POSTAL_CODE", "T: DECISION_DAY", "U: CASE_SUBMITTED_DAY", "V: EMPLOYER_NAME", "W: CASE_SUBMITTED_MONTH", "X: PW_SOURCE_YEAR", "Y: CASE_SUBMITTED_YEAR", "Z: SOC_NAME")
+weight <- c(0.0, 0.0007830942186212831, 0.000927174138450827, 0.0013209130542083407, 0.0014978174332684582, 0.001926613865431721, 0.004696222372350042, 0.005613026591388195, 0.0059109170354118045, 0.007495364964875977, 0.009982370752676516, 0.010582386258763989, 0.02157756310762043, 0.025615064518057933, 0.027829702920748982, 0.02953707528245541, 0.031178999525031798, 0.03499635408912244, 0.045799220009636044, 0.05939736127794322, 0.07169787988718014, 0.07641344119157746, 0.07920810072322149, 0.11334477949151597, 0.14549547967947657, 0.18717307761096497)
+featureWeight <- data.frame(feature,weight,featureAlias)
+ggplot(featureWeight, aes(x=featureAlias, y=weight, fill=feature)) + ggtitle("Figure 9: Feature Weights") + geom_bar(stat="identity")
+
+```
+
+
+
+```{r echo=FALSE,message=FALSE}
+
+queries = c("Accuracy","Precision","Recall","F1-Score")
+randomForest = c(0.9348746059246216,0.94,0.93,0.93)
+nueralNetworks = c(0.9640716862165924,0.96,0.96,0.96)
+knn = c(0.9340282314181033,0.93,0.93,0.93)
+height2 <- rbind(randomForest,nueralNetworks,knn)
+
+mp2 <- barplot(height2,beside=TRUE,ylim=c(0.9,1),xpd=F,names.arg = queries,ylab="Normalized Score",xlab="Queries",main="Figure 10: Performance Comparison of Machine Learning algorithms",col = c("blue","red","green"))
+legend("bottomright", 
+       legend = c("Random Forest", "Nueral Networks","KNN"), 
+       fill = c("blue", "red","green"))
+```

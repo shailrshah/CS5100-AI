@@ -1,0 +1,41 @@
+Accuracy training1 :99.96108938365016
+Accuracy testing1 :28.24618705444631
+              precision    recall  f1-score   support
+
+           1       0.11      1.00      0.20     16109
+           2       0.67      0.20      0.30      6037
+           3       0.97      0.21      0.35    151333
+           4       0.67      0.02      0.04      2566
+
+   micro avg       0.28      0.28      0.28    176045
+   macro avg       0.60      0.36      0.23    176045
+weighted avg       0.88      0.28      0.33    176045
+
+Accuracy training2 :99.96705378469647
+Accuracy testing2 :93.48746059246216
+              precision    recall  f1-score   support
+
+           1       0.37      0.88      0.52      3513
+           2       0.80      0.42      0.55      6097
+           3       0.97      0.97      0.97    164344
+           4       0.50      0.05      0.09      2091
+
+   micro avg       0.93      0.93      0.93    176045
+   macro avg       0.66      0.58      0.53    176045
+weighted avg       0.94      0.93      0.93    176045
+
+Accuracy training3 :99.96932602459599
+Accuracy testing3 :76.82056758537638
+              precision    recall  f1-score   support
+
+           1       0.33      0.77      0.46     16548
+           2       0.24      0.80      0.36      3878
+           3       0.96      0.78      0.86    153292
+           4       0.25      0.02      0.04      2326
+
+   micro avg       0.77      0.77      0.77    176044
+   macro avg       0.45      0.59      0.43    176044
+weighted avg       0.88      0.77      0.80    176044
+
+--- 220.23300004 seconds ---
+------:K-fold: 3 :trees: 64 :bootstrap: True :criterion: entropy----------
